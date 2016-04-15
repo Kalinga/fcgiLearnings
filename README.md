@@ -19,13 +19,17 @@ dbusxx-xml2cpp NetworkManagerIF.xml –proxy=NetworkProxy.h
 
 * Building
 
-g++ Application.cpp -lfcgi++ -lfcgi -ldbus-c++-1 -o fcgiapp -I /usr/include/dbus-c++-1 
+g++ -std=c++11 Application.cpp -lfcgi++ -lfcgi -ldbus-c++-1 -o fcgiapp -I /usr/include/dbus-c++-1 -I cereal/include 
+
 
 * Test and Run
 
 sudo cp nginx.conf /usr/share/nginx/
 
-sudo nginx -c nginx.conf [Kill the port owner by sudo fuser -k 80/tcp if error occurs in this step]
+[Kill the port owner by 'sudo fuser -k 80/tcp' if error occurs in 'sudo nginx -c nginx.conf']
+sudo fuser -k 80/tcp
+
+sudo nginx -c nginx.conf
 
 spawn-fcgi -p 8000 -n fcgiapp
 

@@ -1,7 +1,9 @@
 #include <iostream>
+
 #include "fcgio.h"
 
 #include "NetworkProxyImpl.h"
+#include "NetworkData.h"
 
 using namespace std;
 using namespace org::freedesktop;
@@ -52,16 +54,25 @@ int main(void) {
             std::string path = (*itr);
             deviceList<<path;
         }
-                
-        // TODO: Create the Proxy for "org.freedesktop.NetworkManager.Device"
-        
-        // TODO: JSON string needs to be created after fetching the required details
-        /*{
-            "ip":"ipaddr"
-            "netmask":"netmask"
-            "gateway":"gateway"
-        }*/
-if (isNetwokEnabled)    {
+       
+        // TODO: Create the Proxy for "org.freedesktop.NetworkManager.Device" using object path from above
+        // TODO: Fetch org.freedesktop.NetworkManager.Device.Ip4Config which gives object path
+        // for org.freedesktop.NetworkManager.Ip4Config and create a proxy for 'org.freedesktop.NetworkManager.Ip4Config' interface
+        // org.freedesktop.NetworkManager.Ip4Config.AddressData and Gateway gives required data.
+
+        // TODO: Remove the hardcoded values once the above steps are done
+        string ip("172.17.0.1");
+        string mask("255.0.0.0");
+        string gateway("192.168.1.1");
+        NetworkData * data = new NetworkData(ip, mask, gateway);
+
+        std::stringstream stream; // any stream can be used
+
+        cereal::JSONOutputArchive oarchive(stream); // Create an output archive
+
+        oarchive(*data); // Write the data to the archive
+    
+    if (isNetwokEnabled)    {
         cout << "Content-type: text/html\r\n"
              << "\r\n"
              << "<html>\n"
@@ -78,6 +89,9 @@ if (isNetwokEnabled)    {
              << "    </h1>\n"
              << "    <h1>"
              << "        DeviceList: " << deviceList.str()
+             << "    </h1>\n"
+             << "    <h1>"
+             << "        Configuration: " << stream.str()
              << "    </h1>\n"
 
              << "  </body>\n"
