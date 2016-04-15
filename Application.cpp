@@ -36,12 +36,24 @@ int main(void) {
         bool isNetwokEnabled = false;
         isNetwokEnabled = proxy.NetworkingEnabled();
 
+        bool isWirelessEnabled = false;
+        isWirelessEnabled = proxy.WirelessEnabled();
+        
         std::vector< ::DBus::Path > connections = proxy.ActiveConnections();
         std::stringstream ss;
         for(std::vector< ::DBus::Path >::const_iterator itr = connections.begin();  itr != connections.end(); ++itr) {
             std::string path = (*itr);
             ss<<path;
         }
+
+        std::vector< ::DBus::Path > devices = proxy.GetDevices();
+        std::stringstream deviceList;
+        for(std::vector< ::DBus::Path >::const_iterator itr = devices.begin();  itr != devices.end(); ++itr) {
+            std::string path = (*itr);
+            deviceList<<path;
+        }
+                
+        // TODO: Create the Proxy for "org.freedesktop.NetworkManager.Device"
         
         // TODO: JSON string needs to be created after fetching the required details
         /*{
@@ -58,9 +70,16 @@ if (isNetwokEnabled)    {
              << "  </head>\n"
              << "  <body>\n"
              << "    <h1>Hello, Network is enabled in client system!</h1>\n"
-             << "    <h1>\n"
-             <<ss.str()
-             << "</h1>\n"
+             << "    <h1>"
+             << "        isWirelessEnabled: " <<isWirelessEnabled
+             << "    </h1>\n"
+             << "    <h1>"
+             << "        ActiveConnections: " << ss.str()
+             << "    </h1>\n"
+             << "    <h1>"
+             << "        DeviceList: " << deviceList.str()
+             << "    </h1>\n"
+
              << "  </body>\n"
              << "</html>\n";
          } else {
