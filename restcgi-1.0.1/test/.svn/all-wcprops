@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test
+END
+restcgi_ctmpl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_ctmpl.cpp
+END
+restcgi_method.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_method.cpp
+END
+restcgi_version.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_version.cpp
+END
+restcgi_resource.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_resource.cpp
+END
+restcgi_env.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_env.cpp
+END
+restcgi_date_time.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_date_time.cpp
+END
+test.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/test.cpp
+END
+restcgi_utils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_utils.cpp
+END
+test.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/test.h
+END
+main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/main.cpp
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/Makefile.am
+END
+restcgi_httpsyn.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_httpsyn.cpp
+END
+restcgi_cookie.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_cookie.cpp
+END
+restcgi_status_code.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_status_code.cpp
+END
+restcgi_hdr.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/restcgi/!svn/ver/7/tags/1.0.1/test/restcgi_hdr.cpp
+END

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="description" content="restcgi - REST CGI C++ Library"/>
+        <title>restcgi - Home</title>
+    </head>
+    <body>
+        <div style="text-align:center"><img src="restcgi-logo.png" alt="logo"/></div>
+
+        <h1 style="text-align:center">REST CGI C++ Library</h1>
+
+        <h2>Overview</h2>
+
+        <p><b>restcgi</b> is a C++ library for creating REST-style web service
+        interfaces from a <a href="http://en.wikipedia.org/wiki/Fastcgi">Fast CGI</a>
+        web server protocol. Features are listed in the 
+        <a href="dxydocs/index.html">main page</a> of the documentation.</p>
+
+
+        <h2>Links</h2>
+        
+        <ul style="font-size:large">
+            <li><a href="dxydocs/index.html">Code Documentation</a></li>
+            <li><a href="https://sourceforge.net/projects/restcgi/">SourceForge Project</a></li>
+        </ul>
+
+
+        <h2>Acknowledgements</h2>
+
+        <ul><li><a href="http://www.zooml.com">zooml.com</a> for donating the initial code.</li></ul>
+
+
+        <h2>Installation</h2>
+
+        <ol>
+            <li>Download <a href="https://sourceforge.net/project/showfiles.php?group_id=262271">restcgi</a>.</li>
+            <li>Uncompress downloaded file (under any directory).</li>
+            <li>Change directory down one to the uncompressed files' root directory.</li>
+            <li>Configure the build. The <code>configure</code> command has many 
+                options. Use "-h" to see all the options and where the default
+                installation directories are located. 
+                For example, to install to local 64-bit dir use: 
+                "--libdir=/usr/local/lib64".<br/>
+                <code>> ./configure</code>
+            </li>
+            <li>Make the lib locally and run tests:<br/>
+                <code>> make check</code>
+            </li>
+            <li>If tests pass then install to system directories:<br/>
+                <code>> sudo make install</code>
+            </li>
+        </ol>
+
+        <p>(Windows install has not be tried. Note <code>src/apidefs.h</code> for
+        DLL import syntax.)</p>
+
+
+        <h2>Developer Notes</h2>
+
+        <ul>
+            <li><b>Documentation</b>
+                <ul>
+                    <li>This page is: <code>doc/index.html</code></li>
+                    <li><a href="http://www.doxygen.org">Doxygen</a> is generated into: <code>doc/dxydocs</code><br/>
+                        <code>> cd tools</code><br/>
+                        <code>> doxygen restcgi.dxy</code><br/>
+                    </li>
+                    <li>Upload <code>doc</code> directory's files as static html to this 
+                        <a href="http://apps.sourceforge.net/trac/sourceforge/wiki/Project%20web">project's web</a>
+                        (what you are looking at :).<br/>
+                        <code>> cd doc</code><br/>
+                        <code>> rsync -avP -e ssh * NAME,restcgi@web.sourceforge.net:htdocs/</code><br/>
+                    </li>
+                </ul>
+            </li>
+            <li><b>Automated Build</b>
+                <ul>
+                    <li>Requires the packages:
+                        <a href="http://www.gnu.org/software/autoconf">autoconf</a>,
+                        <a href="http://www.gnu.org/software/automake">automake</a>,
+                        <a href="http://www.gnu.org/software/libtool">libtool</a> 
+                    </li>
+                    <li>Basic changes can be handled by modifying <code>configure.ac</code>,
+                        or one of the <code>Makefile.am</code> files.</li>
+                    <li>When adding/removing a <code>src</code> file be sure to 
+                        change the <code>Makefile.am</code>.</li>
+                    <li>Reset <code>configure</code> (run from root):<br/>
+                        <code>> autoreconf --install --force</code>
+                    </li>
+                </ul>
+            </li>
+            <li><b>Release New Version</b>
+                <ol>
+                    <li>Assign new version number. Note that we are using "x.y.z"
+                        format, e.g. "1.0.0". Think up a brief summary of the
+                        release (to use in svn message).
+                        <ol>
+                            <li><b>VERY IMPORTANT</b>:
+                                <ol><li>Edit <code>configure.ac</code> and change <code>AC_INIT</code>
+                                    2nd param to new version number.</li>
+                                    <li>Edit <code>src/Makefile.am</code> and change 
+                                    <code>PACKAGE_LIBRARY_VERSION</code> to new "library" version 
+                                    number using these
+                                    <a href="http://www.gnu.org/software/libtool/manual/libtool.html#Updating-version-info">guidelines</a>.
+                                    (This sets the numbers of the dynamic lib name.)</li>
+                                </ol>
+                            </li>
+                            <li><code>> svn ci -m 'New release.' configure.ac src/Makefile.am</code><br/>
+                                <code>> svn copy -m '[RELEASE SUMMARY]' --username NAME https://restcgi.svn.sourceforge.net/svnroot/restcgi/trunk https://restcgi.svn.sourceforge.net/svnroot/restcgi/tags/[NEW VERSION NUMBER]</code><br/>
+                            </li>
+                        </ol>
+                    </li>
+                    <li>Checkout clean source from svn repository (in /tmp, e.g.). 
+                        (Note that the auto configure files are not in the repository.)<br/>
+                        <code>> svn co --username NAME https://restcgi.svn.sourceforge.net/svnroot/restcgi/tags/[NEW VERSION NUMBER] restcgi-[NEW VERSION NUMBER]</code><br/>
+                        <code>> cd restcgi-[NEW VERSION NUMBER]</code><br/>
+                        <code>> autoreconf --install --force</code><br/>
+                        <code>> cd tools</code><br/>
+                        <code>> doxygen restcgi.dxy</code><br/>
+                        <code>> cd ../..</code><br/>
+                        <code>> tar cvzf restcgi-[NEW VERSION NUMBER].tar.gz restcgi-[NEW VERSION NUMBER]</code><br/>
+                    </li>
+                    <li><b>FOLLOW Installation INSTRUCTIONS TO TEST!!!</b></li>
+                    <li>Upload tar file to SourceForge FSM
+                        (<a href="http://apps.sourceforge.net/trac/sourceforge/wiki/File%20management%20service">instructions</a>):<br/> 
+                        <code>> rsync -avP -e ssh restcgi-[NEW VERSION NUMBER].tar.gz NAME@frs.sourceforge.net:uploads/</code><br/>
+                    </li>
+                    <li>Create new
+                        <a href="https://sourceforge.net/project/admin/editpackages.php?group_id=262271">SourceForge release</a>
+                        (<a href="http://apps.sourceforge.net/trac/sourceforge/wiki/Release%20files%20for%20download">instructions</a>).
+                    </li>
+                </ol>
+            </li>
+        </ul>
+    </body>
+</html>
