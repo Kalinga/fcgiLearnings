@@ -1,67 +1,0 @@
-8
-
-dir
-7
-https://restcgi.svn.sourceforge.net/svnroot/restcgi/tags/1.0.1
-https://restcgi.svn.sourceforge.net/svnroot/restcgi
-
-
-
-2009-05-18T23:02:20.400634Z
-7
-greg_d
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-b0c42282-603f-407c-8a0d-d37c18054ef0
-
-test
-dir
-
-m4
-dir
-
-tools
-dir
-
-configure.ac
-file
-
-
-
-
-2009-05-18T23:02:55.000000Z
-1c69484fcfc6baab7ae5b2b2880405ff
-2009-05-18T22:59:59.009062Z
-6
-greg_d
-
-doc
-dir
-
-src
-dir
-
-Makefile.am
-file
-
-
-
-
-2009-05-18T23:02:55.000000Z
-5a5e44e02b799b46a7fa30893d9af489
-2009-05-14T21:39:11.206353Z
-2
-greg_d
-
