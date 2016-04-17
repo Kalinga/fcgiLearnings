@@ -13,51 +13,48 @@
 using namespace std;
 using namespace org::freedesktop;
 
+#define FCGI_ONLY 0
+
 DBus::BusDispatcher dispatcher;
- extern "C" {
- void set_env(char** penv) {
-     char buf[4000];
-     for (; *penv; ++penv) {
-         ::strncpy(buf, *penv, sizeof(buf));
-         buf[sizeof(buf) - 1] = 0; // ensure terminated
-         char* p = ::strchr(buf, '=');
-         const char* v = "";
-         if (p) {*p = 0; v = p + 1;}
-         ::setenv(buf, v, 1); // makes copy of buf, v
-     }
+
+extern "C" {
+     void set_env(char** penv) {
+         char buf[4000];
+         for (; *penv; ++penv) {
+             ::strncpy(buf, *penv, sizeof(buf));
+             buf[sizeof(buf) - 1] = 0; // ensure terminated
+             char* p = ::strchr(buf, '=');
+             const char* v = "";
+             if (p) {*p = 0; v = p + 1;}
+             ::setenv(buf, v, 1); // makes copy of buf, v
+         }
+    }
 }
 
 int main(void) {
+#if FCGI_ONLY
     // Backup the stdio streambufs
     streambuf * cin_streambuf  = cin.rdbuf();
     streambuf * cout_streambuf = cout.rdbuf();
     streambuf * cerr_streambuf = cerr.rdbuf();
+#endif
 
     FCGX_Init();
     FCGX_Request request;
     FCGX_InitRequest(&request, 0, 0);
 
     while (FCGX_Accept_r(&request) == 0) {
-        /*fcgi_streambuf cin_fcgi_streambuf(request.in);
+#if FCGI_ONLY
+        fcgi_streambuf cin_fcgi_streambuf(request.in);
         fcgi_streambuf cout_fcgi_streambuf(request.out);
         fcgi_streambuf cerr_fcgi_streambuf(request.err);
 
         cin.rdbuf(&cin_fcgi_streambuf);
         cout.rdbuf(&cout_fcgi_streambuf);
-        cerr.rdbuf(&cerr_fcgi_streambuf);*/
+        cerr.rdbuf(&cerr_fcgi_streambuf);
+#endif
 
-        //REST
-        fcgi_streambuf fisbuf(request.in);
-        std::istream is(&fisbuf);
-        fcgi_streambuf fosbuf(request.out);
-        std::ostream os(&fosbuf);
-        set_env(request.envp);
-
-         // restcgi processing. 
-        restcgi::endpoint::method_pointer m = restcgi::endpoint::create(is, os)->receive();
-        restcgi::resource::pointer root(new Myroot( restcgi::method_e::GET | restcgi::method_e::DEL));
-        restcgi::rest().process(m, root);
-
+        // TODO: Code required refactoring and should be moved from here
         DBus::default_dispatcher = &dispatcher;
         DBus::Connection bus = DBus::Connection::SystemBus();
 
@@ -89,17 +86,8 @@ int main(void) {
         // org.freedesktop.NetworkManager.Ip4Config.AddressData and Gateway gives required data.
 
         // TODO: Remove the hardcoded values once the above steps are done
-        string ip("172.17.0.1");
-        string mask("255.0.0.0");
-        string gateway("192.168.1.1");
-        NetworkData * data = new NetworkData(ip, mask, gateway);
 
-        std::stringstream stream; // any stream can be used
-
-        cereal::JSONOutputArchive oarchive(stream); // Create an output archive
-
-        oarchive(*data); // Write the data to the archive
-    
+#if FCGI_ONLY
     if (isNetwokEnabled)    {
         cout << "Content-type: text/html\r\n"
              << "\r\n"
@@ -118,10 +106,6 @@ int main(void) {
              << "    <h1>"
              << "        DeviceList: " << deviceList.str()
              << "    </h1>\n"
-             << "    <h1>"
-             << "        Configuration: " << stream.str()
-             << "    </h1>\n"
-
              << "  </body>\n"
              << "</html>\n";
          } else {
@@ -136,30 +120,27 @@ int main(void) {
              << "  </body>\n"
              << "</html>\n";
          }
-         
-        sleep (10);
-        
-        cout << "Content-type: text/html\r\n"
-             << "\r\n"
-             << "<html>\n"
-             << "  <head>\n"
-             << "    <title>This is REST resposne</title>\n"
-             << "  </head>\n"
-             << "  <body>\n"
-             << "    <h1>Hello, How are you</h1>\n"
-             << "  </body>\n"
-             << "</html>\n";
+#endif
+        //REST
+        fcgi_streambuf fisbuf(request.in);
+        std::istream is(&fisbuf);
+        fcgi_streambuf fosbuf(request.out);
+        std::ostream os(&fosbuf);
+        set_env(request.envp);
+
+         // restcgi processing. 
+        restcgi::endpoint::method_pointer m = restcgi::endpoint::create(is, os)->receive();
+        restcgi::resource::pointer root(new Myroot( restcgi::method_e::GET));
+        restcgi::rest().process(m, root);
 
         // Note: the fcgi_streambuf destructor will auto flush
     }
 
+#if FCGI_ONLY
     // restore stdio streambufs
     /*cin.rdbuf(cin_streambuf);
     cout.rdbuf(cout_streambuf);
     cerr.rdbuf(cerr_streambuf);*/
-
+#endif
     return 0;
 }
-
-
- }

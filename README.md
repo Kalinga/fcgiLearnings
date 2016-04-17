@@ -29,7 +29,7 @@ dbusxx-xml2cpp NetworkManagerIF.xml –proxy=NetworkProxy.h
 
 * Building
 
-g++ -std=c++11 Application.cpp -lfcgi++ -lfcgi -ldbus-c++-1 -lrestcgi -o fcgiapp -I /usr/include/dbus-c++-1 -I cereal/include
+g++ -std=c++11 Application.cpp -lfcgi -lfcgi++ -ldbus-c++-1 -luripp -lrestcgi -o fcgiapp -I /usr/include/dbus-c++-1 -I cereal/include
 
 
 * Test and Run
@@ -47,4 +47,6 @@ spawn-fcgi -p 8000 -n fcgiapp
 
 open browser and key-in http://localhost
 
+* References
 
+http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm
