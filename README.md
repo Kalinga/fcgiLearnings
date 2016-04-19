@@ -1,7 +1,7 @@
 # fcgiLearnings
 make a rapid prototyping for fcgi application using dbus to fetch  network manager related settings
 
-*packages installed*
+**packages installed**
 
 sudo apt-get install -y libfcgi-dev spawn-fcgi
 
@@ -29,18 +29,18 @@ cd /usr/src/gtest && sudo cmake CMakeLists.txt
 
 sudo make && sudo cp *.a /usr/lib
 
-*Generation*
+**Generation**
 
 dbusxx-introspect --system /org/freedesktop/NetworkManager org.freedesktop.NetworkManager > ~/GitHub/fcgiLearnings/NetworkManagerIF.xml
 
 dbusxx-xml2cpp NetworkManagerIF.xml –proxy=NetworkProxy.h
 
-*Building*
+**Building**
 
 g++ -std=c++11 Application.cpp -lfcgi -lfcgi++ -ldbus-c++-1 -luripp -lrestcgi -o fcgiapp -I /usr/include/dbus-c++-1 -I cereal/include
 
 
-*Test and Run*
+**Test and Run**
 
 sudo cp nginx.conf /usr/share/nginx/
 
@@ -61,12 +61,12 @@ cd tests && cmake CMakeList.txt && make
 
 ./runTests
 
-**References*
+**References**
 
 http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm
 
 http://www.drdobbs.com/web-development/restful-web-services-a-tutorial/240169069?pgno=1
 
-*Imp note wrt. REST*
+**Imp note wrt. REST**
 
 The key difference between PUT and POST is that PUT is idempotent while POST is not. No matter how many times you send a PUT request, the results will be same. POST is not an idempotent method. Making a POST multiple times may result in multiple resources getting created on the server.
