@@ -1,7 +1,9 @@
 #ifndef NETWORK_DATA_H
 #define NETWORK_DATA_H
 
+#include <string>
 #include <iostream>
+
 #include <cereal/archives/json.hpp>
 
 using namespace std;
@@ -20,6 +22,16 @@ public:
 	void serialize(Archive & archive)
 	{
     	archive( CEREAL_NVP(ipAddress), CEREAL_NVP(netmask), CEREAL_NVP(gateway) ); // serialize things by passing them to the archive
+	}
+
+	string serialize()
+	{
+		stringstream stream;
+		{
+			cereal::JSONOutputArchive oarchive(stream); // Create an output archive
+			oarchive(*this); // Write the data to the archive
+		}
+		return stream.str();
 	}
 	
 	void setIPAddress(string ip) {
